@@ -1,4 +1,11 @@
-# Webpack dev server setup with Hot Module Reloading for Wordpress
+# Webpack dev server setup with Hot Module Reloading for Wordpress, uses PostCSS
 
-Copy the contents of the repo into your theme folder, and run `npm run dev` to start the dev server
-When you are ready to publish the theme, run `npm build` to dump the built theme into the `build` folder, upload that version to your wordpress install
+1. Copy the contents of the repo into your theme folder
+
+2. run `npm install` to install dependencies
+
+3. Update the contents of `env.config.js` to match your theme
+
+4. run `npm run start` to start the dev server, changes to php, js and css files will be automatically reloaded, css and js changes won't require a page refresh
+
+5. When you are ready to publish the theme, run `npm build` to dump the built theme into the `build` folder, upload that version to your wordpress install
