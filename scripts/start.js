@@ -1,25 +1,25 @@
-global.watch = true;
+global.watch = true
 
-const { PATHS, PROXY_TARGET, THEME_NAME } = require('../env.config');
-const utils = require('./utils');
-const path = require('path');
-const fsp = require('fs-promise');
-const browserSync = require('browser-sync').create();
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const htmlInjector = require('bs-html-injector');
-const webpackConfig = require('../webpack.config');
+const { PATHS, PROXY_TARGET, BROWSER, THEME_NAME } = require('../env.config')
+const utils = require('./utils')
+const path = require('path')
+const fsp = require('fs-promise')
+const browserSync = require('browser-sync').create()
+const webpack = require('webpack')
+const webpackDevMiddleware = require('webpack-dev-middleware')
+const webpackHotMiddleware = require('webpack-hot-middleware')
+const htmlInjector = require('bs-html-injector')
+const webpackConfig = require('../webpack.config')
 
-const bundler = webpack(webpackConfig);
+const bundler = webpack(webpackConfig)
 
 const bsOptions = {
   files: [{
     // js changes are managed by webpack
     match: [`${PATHS.base()}/**/*.php`],
     // manually sync everything else
-    fn: synchronize,
-  }, ],
+    fn: synchronize
+  } ],
 
   proxy: {
     // proxy local WP install
@@ -32,27 +32,29 @@ const bsOptions = {
         noInfo: true,
         stats: {
           colors: true
-        },
+        }
       }),
 
       // hot update js && css
-      webpackHotMiddleware(bundler),
-    ],
+      webpackHotMiddleware(bundler)
+    ]
   },
 
-  //this gets annoying
-  open: false,
-};
+  browser: BROWSER,
 
-browserSync.use(htmlInjector, { restrictions: ['#page'] });
-
-function synchronize(event, file) {
-  // activate html injector
-  if (file.endsWith('php')) { htmlInjector(); }
+  // Open app in browser?
+  open: false
 }
 
-(async() => {
-  await fsp.emptyDir(PATHS.compiled());
-  await utils.addMainCss();
-  browserSync.init(bsOptions);
+browserSync.use(htmlInjector, { restrictions: ['#app'] })
+
+function synchronize (event, file) {
+  // activate html injector
+  if (file.endsWith('php')) { htmlInjector() }
+}
+
+(async () => {
+  await fsp.emptyDir(PATHS.compiled())
+  await utils.addMainCss()
+  browserSync.init(bsOptions)
 })()

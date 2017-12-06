@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
   THEME_NAME: 'THEME NAME',
   PROXY_TARGET: 'THEME_NAME.dev',
+  BROWSER: 'firefoxdeveloperedition',
   HOST: 'localhost',
   PORT: 3000,
   PATHS: {
